@@ -16,7 +16,12 @@
     </h2>
     <!-- Replace MEEEEE -->
 
-    {{ partial "social-icons.html" .}}
+    <div class="handle">
+      {{ partial "social-icons.html" .}}
+    </div>
+    <p class="passion">
+      {{ .Params.other }}
+    </p>
   </div>
 </div>
 

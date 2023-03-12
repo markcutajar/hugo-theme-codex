@@ -2,7 +2,15 @@
 <html lang="{{ .Site.LanguageCode }}">
 
 <head>
+
+
+  {{ if .Site.GoogleAnalytics }}
+  {{ partial "analytics-gtag.html" . }}
+  {{ end }}
+
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -40,10 +48,6 @@
   {{ end }} 
   {{ block "links" . }} {{ end }}
   {{ partial "seo-schema.html" .}}
-
-  {{- if not .Site.IsServer -}}
-      {{ template "_internal/google_analytics_async.html" . }}
-  {{- end -}}
 </head>
 
 <body>
@@ -60,6 +64,28 @@
   {{ $script := resources.Get "js/index.js" | minify | fingerprint }}
   <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity | safeHTMLAttr }}" crossorigin="anonymous"></script>
   {{ block "scripts" . }} {{ end }}
+
+  <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+  <script>
+  window.cookieconsent.initialise({
+    "content": {
+      "message": "This website uses cookies. These cookies are just used for analytics."
+    },
+    "palette": {
+      "popup": {
+        "background": "#edeff5",
+        "text": "#838391"
+      },
+      "button": {
+        "background": "#ff8800"
+      }
+    },
+    law: {
+      regionalLaw: false,
+    },
+    location: true
+  });
+  </script>
 </body>
 
 </html>
